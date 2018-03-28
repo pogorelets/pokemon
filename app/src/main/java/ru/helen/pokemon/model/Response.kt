@@ -1,9 +1,13 @@
 package ru.helen.pokemon.model
 
+import com.google.gson.annotations.SerializedName
+
 /**
- * Created by lenap on 28.03.2018.
+ * Response
  */
 data class Response(
+        @SerializedName("count")
         var count: Int,
+        @SerializedName("results")
         var result: List<Pokemon>
 )

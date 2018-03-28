@@ -1,10 +1,10 @@
 package ru.helen.pokemon.model
 
-/**
- * Created by lenap on 27.03.2018.
- */
+import com.google.gson.annotations.SerializedName
+
 data class Pokemon(
         var id: Int?,
+        @SerializedName("name")
         var name: String,
         val abilities: List<PokemonAbility>?,
         val stats: List<PokemonStat>?,
