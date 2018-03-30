@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 
 @Module
 class AppModule(var context: Context) {
-    private val BASE_URL = "https://api.themoviedb.org/"
+    private val BASE_URL = "https://pokeapi.co/api/v2/"
 
     @Provides
     @Singleton

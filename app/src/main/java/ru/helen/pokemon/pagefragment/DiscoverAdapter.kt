@@ -14,7 +14,7 @@ import ru.helen.pokemon.model.Pokemon
 /**
  * DiscoverAdapter
  */
-class DiscoverAdapter(var icontext: Context, var listener: Contract.ViewPage): RecyclerView.Adapter<DiscoverAdapter.ViewHolder>() {
+class DiscoverAdapter(var listener: Contract.ViewPage): RecyclerView.Adapter<DiscoverAdapter.ViewHolder>() {
     private var pokemons: List<Pokemon> = ArrayList()
 
     fun changedata(pokemons:List<Pokemon>){
@@ -32,7 +32,6 @@ class DiscoverAdapter(var icontext: Context, var listener: Contract.ViewPage): R
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder!!.bind(pokemons[position], listener)
-
     }
 
 
@@ -42,7 +41,10 @@ class DiscoverAdapter(var icontext: Context, var listener: Contract.ViewPage): R
 
             Glide.with(itemView.context)
                     .load(pokemon.sprites!!.frontDefault)
-                    .into(spriteImage);
+                    .into(itemView.spriteImage)
+
+
+
         }
     }
 }

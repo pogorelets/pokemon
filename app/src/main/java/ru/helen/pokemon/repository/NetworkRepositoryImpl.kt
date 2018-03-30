@@ -1,10 +1,13 @@
 package ru.helen.pokemon.repository
 
+import android.util.Log
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.helen.pokemon.model.Pokemon
 import ru.helen.pokemon.model.Response
+import ru.helen.pokemon.pagefragment.Contract
 
 /**
  * NetworkRepository
@@ -13,11 +16,13 @@ class NetworkRepositoryImpl(var api: PokemonAPI) : NetworkRepository {
     lateinit var observerlist: Single<Response>
     lateinit var observerpokemon: Single<Pokemon>
 
+
     override fun getPokemonList(offset: Int, limit: Int): Single<Response> {
-        observerlist = api.getPokemonList(offset,limit)
+        return api.getPokemonList(offset, limit)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-        return observerlist
+
+
     }
 
     override fun getPokemon(name: String): Single<Pokemon> {
@@ -31,4 +36,7 @@ class NetworkRepositoryImpl(var api: PokemonAPI) : NetworkRepository {
         observerlist.unsubscribeOn(Schedulers.io())
         observerpokemon.unsubscribeOn(Schedulers.io())
     }
+
+
+
 }

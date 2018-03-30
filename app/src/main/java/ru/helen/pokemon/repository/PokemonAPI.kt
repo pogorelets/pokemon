@@ -1,5 +1,6 @@
 package ru.helen.pokemon.repository
 
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,4 +18,7 @@ interface PokemonAPI {
 
     @GET("pokemon/{name}")
     fun getPokemon(@Path("name") name: String): Single<Pokemon>
+
+    @GET("pokemon")
+    fun getPokemonListtest(@Query("offset") offset: Int, @Query("limit") limit: Int): Observable<List<Pokemon>>
 }
