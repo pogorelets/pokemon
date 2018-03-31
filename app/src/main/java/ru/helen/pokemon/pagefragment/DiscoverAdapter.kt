@@ -37,7 +37,9 @@ class DiscoverAdapter(var listener: Contract.ViewPage): RecyclerView.Adapter<Dis
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(pokemon: Pokemon, listener: Contract.ViewPage) = with(itemView){
             namePokemon.text = pokemon.name
-
+            itemView.setOnClickListener {
+                listener.onPokemonClick(pokemon)
+            }
             Glide.with(itemView.context)
                     .load(pokemon.sprites!!.frontDefault)
                     .into(itemView.spriteImage)

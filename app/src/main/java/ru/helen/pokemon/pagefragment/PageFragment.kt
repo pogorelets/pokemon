@@ -1,6 +1,7 @@
 package ru.helen.pokemon.pagefragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -14,8 +15,10 @@ import ru.helen.pokemon.R
 import ru.helen.pokemon.model.Pokemon
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
-
-
+import ru.helen.pokemon.model.PokemonAbility
+import ru.helen.pokemon.pokemon.PokemonActivity
+import ru.helen.pokemon.repository.CurrentPokemon
+import java.io.Serializable
 
 
 class PageFragment : Fragment(), Contract.ViewPage {
@@ -96,7 +99,9 @@ class PageFragment : Fragment(), Contract.ViewPage {
     }
 
     override fun onPokemonClick(pokemon: Pokemon) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        CurrentPokemon.pokemon = pokemon
+        var intent = Intent(context,PokemonActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onStop() {
