@@ -5,4 +5,5 @@ package ru.helen.pokemon.pokemon
  */
 class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interactor) {
 
+
 }

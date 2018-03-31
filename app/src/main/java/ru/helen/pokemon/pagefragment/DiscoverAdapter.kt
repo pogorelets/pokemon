@@ -1,6 +1,5 @@
 package ru.helen.pokemon.pagefragment
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -42,9 +41,6 @@ class DiscoverAdapter(var listener: Contract.ViewPage): RecyclerView.Adapter<Dis
             Glide.with(itemView.context)
                     .load(pokemon.sprites!!.frontDefault)
                     .into(itemView.spriteImage)
-
-
-
         }
     }
 }

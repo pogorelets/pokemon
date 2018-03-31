@@ -13,6 +13,9 @@ import ru.helen.pokemon.App
 import ru.helen.pokemon.R
 import ru.helen.pokemon.model.Pokemon
 import javax.inject.Inject
+import android.support.v7.widget.RecyclerView
+
+
 
 
 class PageFragment : Fragment(), Contract.ViewPage {
@@ -21,6 +24,32 @@ class PageFragment : Fragment(), Contract.ViewPage {
     @Inject
     lateinit var presenter: Presenter
     lateinit var adapter: DiscoverAdapter
+    var gridLayoutManager =  GridLayoutManager(context,2)
+    var isLoading = false
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val totalItemCount = gridLayoutManager.getItemCount()
+            val firstPosition = gridLayoutManager.findFirstVisibleItemPosition();
+            val visibleitemcount = gridLayoutManager.getChildCount()
+             //вычисляем момент когда пора загружать следующую порцию покемонов
+
+            if (firstPosition + visibleitemcount >= totalItemCount){
+                if (!isLoading){
+                    presenter.setPosition(firstPosition,visibleitemcount)
+
+                }
+
+            }
+
+        }
+    }
 
     companion object {
         val ARG_PAGE = "ARG_PAGE"
@@ -52,12 +81,18 @@ class PageFragment : Fragment(), Contract.ViewPage {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvDiscover.layoutManager = GridLayoutManager(activity,2)
-        rvDiscover.setHasFixedSize(true)
-        adapter = DiscoverAdapter(this)
-        rvDiscover.adapter=adapter
-        presenter.getPokemons(6,0)
-       // test!!.text = "Fragment #$mPage"
+
+        if (mPage == 1){
+            rvDiscover.layoutManager =  gridLayoutManager
+            rvDiscover.setHasFixedSize(true)
+            adapter = DiscoverAdapter(this)
+            rvDiscover.adapter=adapter
+            rvDiscover.addOnScrollListener(scrollListener)
+            Log.e("getPokemons()","getPokemons()")
+            presenter.getPokemons()
+
+        }
+
     }
 
     override fun onPokemonClick(pokemon: Pokemon) {
@@ -71,15 +106,18 @@ class PageFragment : Fragment(), Contract.ViewPage {
     }
 
     override fun showprogress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        isLoading = true
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun dismissprogress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        isLoading = false
+        progressBar.visibility = View.INVISIBLE
     }
 
     override fun showerror(error: String) {
-        Log.e("ERROR", error)
+        textError.visibility = View.INVISIBLE
+        textError.text = "Ошибка " + error
     }
 
     override fun updatelistpokemons(pokemons: List<Pokemon>) {

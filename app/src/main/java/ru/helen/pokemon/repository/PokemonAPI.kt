@@ -14,11 +14,11 @@ import ru.helen.pokemon.model.Response
  */
 interface PokemonAPI {
     @GET("pokemon")
-    fun getPokemonList(@Query("offset") offset: Int, @Query("limit") limit: Int): Single<Response>
+    fun getPokemonListtest(@Query("offset") offset: Int, @Query("limit") limit: Int): Single<Response>
 
     @GET("pokemon/{name}")
-    fun getPokemon(@Path("name") name: String): Single<Pokemon>
+    fun getPokemon(@Path("name") name: String): Observable<Pokemon>
 
     @GET("pokemon")
-    fun getPokemonListtest(@Query("offset") offset: Int, @Query("limit") limit: Int): Observable<List<Pokemon>>
+    fun getPokemonList(@Query("limit") limit: Int, @Query("offset") offset: Int): Single<Response>
 }

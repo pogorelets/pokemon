@@ -15,7 +15,7 @@ interface Contract {
         fun onPokemonClick(pokemon: Pokemon)
     }
     interface Interactor{
-        fun getPokemonList(offset: Int,limit: Int, listener: Contract.PokemonsLoaded)
+        fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded)
     }
 
     interface PokemonsLoaded {
