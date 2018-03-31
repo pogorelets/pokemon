@@ -3,13 +3,10 @@ package ru.helen.pokemon.pokemon
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_pokemon.*
-import kotlinx.android.synthetic.main.pokemon_item.view.*
 import ru.helen.pokemon.App
 import ru.helen.pokemon.R
-import ru.helen.pokemon.model.Pokemon
 import ru.helen.pokemon.repository.CurrentPokemon
 
 class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
