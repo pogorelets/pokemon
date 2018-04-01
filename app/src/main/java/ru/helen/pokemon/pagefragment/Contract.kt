@@ -18,6 +18,7 @@ interface Contract {
     interface Interactor{
         fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded)
         fun getLocalPokemons(): List<Pokemon>
+        fun unsubscribe()
     }
 
     interface PokemonsLoaded {

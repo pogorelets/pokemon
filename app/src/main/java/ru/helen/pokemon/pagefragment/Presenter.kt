@@ -14,7 +14,6 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
         var limit = 12
         var first = 0
 
-
     }
 
     fun setPosition(firstposition : Int, visiblecount: Int){
@@ -40,6 +39,10 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
 
     fun getLocalPokemons(){
         view.updatelocalpokemons(interactor.getLocalPokemons())
+    }
+
+    fun unsubscribe(){
+
     }
 
     override fun onSuccessPokemonLoaded(pokemons: List<Pokemon>) {

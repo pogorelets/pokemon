@@ -14,7 +14,10 @@ import ru.helen.pokemon.repository.NetworkRepository
 class InteractorImpl(val networkRepository: NetworkRepository, val localRepository: LocalBDRepository) : Contract.Interactor {
 
 
-    var listpokemons: MutableList<Pokemon> = ArrayList()
+    companion object {
+        var listpokemons: MutableList<Pokemon> = ArrayList()
+    }
+
 
     override fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded) {
         networkRepository.getPokemonList(offset, limit).subscribe({ response -> getPokemons(response.count, response.result, listener) }, { throwable -> listener.onErrorPokemonLoaded(throwable.toString()) })
@@ -59,6 +62,10 @@ class InteractorImpl(val networkRepository: NetworkRepository, val localReposito
 
     override fun getLocalPokemons(): List<Pokemon> {
         return localRepository.getAllPokemons()
+    }
+
+    override fun unsubscribe() {
+        networkRepository.unsubscribe()
     }
 
 }

@@ -62,6 +62,6 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
     override fun onStop() {
         super.onStop()
         App.instance.destroyPokemonComponent()
-        //TODO отписать rx
+
     }
 }
