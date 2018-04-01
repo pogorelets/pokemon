@@ -11,4 +11,6 @@ interface LocalBDRepository {
     fun insertPokemon(pokemon: Pokemon): Boolean
 
     fun checkPokemons(id: Int): Boolean
+
+    fun deletePokemons(id: Int): Boolean
 }

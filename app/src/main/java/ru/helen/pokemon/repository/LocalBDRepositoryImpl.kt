@@ -7,6 +7,10 @@ import ru.helen.pokemon.repository.localbd.DBHelper
  * Local Repository
  */
 class LocalBDRepositoryImpl(val dbhelper: DBHelper) : LocalBDRepository {
+    override fun deletePokemons(id: Int): Boolean {
+        return dbhelper.deletePokemons(id)
+    }
+
     override fun getAllPokemons(): List<Pokemon> {
         return dbhelper.getAllPokemons()
     }

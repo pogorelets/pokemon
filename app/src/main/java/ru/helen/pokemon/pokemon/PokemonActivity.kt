@@ -1,5 +1,6 @@
 package ru.helen.pokemon.pokemon
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -8,10 +9,14 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_pokemon.*
 import ru.helen.pokemon.App
 import ru.helen.pokemon.R
+import ru.helen.pokemon.main.MainActivity
+import ru.helen.pokemon.pagefragment.PageFragment
 import ru.helen.pokemon.repository.CurrentPokemon
 import javax.inject.Inject
 
 class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
+
+
     @Inject
     lateinit var presenter: Presenter
     var adapter: AbilityAdapter = AbilityAdapter()
@@ -36,15 +41,22 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
         rvability.adapter = adapter
         adapter.changedata(pokemon.abilities!!)
         btnSave.setOnClickListener {presenter.savePokemon(pokemon)}
+        btnDelete.setOnClickListener { presenter.deletePokemon(pokemon.id!!) }
 
     }
 
     override fun btnSaveVisible() {
         btnSave.visibility = View.VISIBLE
+        btnDelete.visibility = View.GONE
     }
 
     override fun btnSaveInvisible() {
-        btnSave.visibility = View.INVISIBLE
+        btnSave.visibility = View.GONE
+        btnDelete.visibility = View.VISIBLE
+    }
+
+    override fun back() {
+        super.onBackPressed()
     }
 
     override fun onStop() {

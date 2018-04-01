@@ -26,7 +26,7 @@ class PageFragment : Fragment(), Contract.ViewPage {
     @Inject
     lateinit var presenter: Presenter
     lateinit var adapter: DiscoverAdapter
-    lateinit var localadapter: DiscoverAdapter
+    var localadapter = DiscoverAdapter(this)
     var gridLayoutManager =  GridLayoutManager(context,2)
     var isLoading = false
 
@@ -87,19 +87,15 @@ class PageFragment : Fragment(), Contract.ViewPage {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         if (mPage == 1){
             rvDiscover.layoutManager =  gridLayoutManager
             rvDiscover.setHasFixedSize(true)
             adapter = DiscoverAdapter(this)
             rvDiscover.adapter=adapter
             rvDiscover.addOnScrollListener(scrollListener)
-            Log.e("getPokemons()","getPokemons()")
             presenter.getPokemons()
 
         } else if (mPage == 2){
-            localadapter = DiscoverAdapter(this)
             rvPokedex.layoutManager = gridLayoutManager
             rvPokedex.visibility = View.VISIBLE
             rvPokedex.setHasFixedSize(true)
@@ -108,6 +104,11 @@ class PageFragment : Fragment(), Contract.ViewPage {
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getLocalPokemons()
     }
 
     override fun onPokemonClick(pokemon: Pokemon) {

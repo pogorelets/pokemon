@@ -82,6 +82,16 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     @Throws(SQLiteConstraintException::class)
+    fun deletePokemons(id: Int): Boolean {
+
+        val db = readableDatabase
+        val query = "DELETE FROM ${PokemonContract.Pokemon.TABLE_NAME} WHERE ${PokemonContract.Pokemon.ID} =\"$id\""
+        db.rawQuery(query, null)
+        db.close()
+        return true
+    }
+
+    @Throws(SQLiteConstraintException::class)
     fun getAllPokemons(): List<Pokemon> {
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} ORDER BY ${PokemonContract.Pokemon.ID} DESC"

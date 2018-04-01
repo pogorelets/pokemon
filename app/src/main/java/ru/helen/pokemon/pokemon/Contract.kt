@@ -9,11 +9,12 @@ interface Contract {
     interface ViewPokemon{
         fun btnSaveVisible()
         fun btnSaveInvisible()
-
+        fun back()
     }
 
     interface Interactor{
         fun savePokemon(pokemon: Pokemon):Boolean
         fun checkPokemons(id: Int): Boolean
+        fun deletePokemon(id: Int): Boolean
     }
 }
