@@ -15,18 +15,18 @@ import ru.helen.pokemon.R
 import ru.helen.pokemon.model.Pokemon
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
-import ru.helen.pokemon.model.PokemonAbility
 import ru.helen.pokemon.pokemon.PokemonActivity
 import ru.helen.pokemon.repository.CurrentPokemon
-import java.io.Serializable
 
 
 class PageFragment : Fragment(), Contract.ViewPage {
+
 
     private var mPage: Int = 0
     @Inject
     lateinit var presenter: Presenter
     lateinit var adapter: DiscoverAdapter
+    lateinit var localadapter: DiscoverAdapter
     var gridLayoutManager =  GridLayoutManager(context,2)
     var isLoading = false
 
@@ -81,6 +81,10 @@ class PageFragment : Fragment(), Contract.ViewPage {
         return inflater!!.inflate(R.layout.fragment_page, container, false)
     }
 
+    override fun updatelocalpokemons(pokemons: List<Pokemon>) {
+        localadapter.changedata(pokemons)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -94,7 +98,15 @@ class PageFragment : Fragment(), Contract.ViewPage {
             Log.e("getPokemons()","getPokemons()")
             presenter.getPokemons()
 
+        } else if (mPage == 2){
+            localadapter = DiscoverAdapter(this)
+            rvPokedex.layoutManager = gridLayoutManager
+            rvPokedex.visibility = View.VISIBLE
+            rvPokedex.setHasFixedSize(true)
+            rvPokedex.adapter = localadapter
+            presenter.getLocalPokemons()
         }
+
 
     }
 

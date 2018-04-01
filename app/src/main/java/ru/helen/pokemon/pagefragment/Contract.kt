@@ -12,10 +12,12 @@ interface Contract {
         fun dismissprogress()
         fun showerror(error : String)
         fun updatelistpokemons(pokemons : List<Pokemon>)
+        fun updatelocalpokemons(pokemons : List<Pokemon>)
         fun onPokemonClick(pokemon: Pokemon)
     }
     interface Interactor{
         fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded)
+        fun getLocalPokemons(): List<Pokemon>
     }
 
     interface PokemonsLoaded {

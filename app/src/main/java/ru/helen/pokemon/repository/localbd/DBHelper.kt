@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.provider.SyncStateContract.Helpers.insert
 import ru.helen.pokemon.model.*
 
 /**
@@ -89,19 +88,20 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
             while (cursor.isAfterLast == false) {
                 val id = cursor.getInt(cursor.getColumnIndex(PokemonContract.Pokemon.ID))
                 val name = cursor.getString(cursor.getColumnIndex(PokemonContract.Pokemon.NAME))
-                val stats = getStatForPokemons(id)
-                val abilities = getAbilityForPokemons(id)
-                val sprite = getSpritesForPokemons(id)
+                val stats = getStatForPokemons(id, db)
+                val abilities = getAbilityForPokemons(id, db)
+                val sprite = getSpritesForPokemons(id, db)
                 pokemons.add(Pokemon(id,name,abilities,stats,sprite))
+                cursor.moveToNext()
             }
         }
+        db.close()
         return pokemons
 
     }
 
     @Throws(SQLiteConstraintException::class)
-    fun getStatForPokemons(id: Int): List<PokemonStat> {
-        val db = readableDatabase
+    fun getStatForPokemons(id: Int, db: SQLiteDatabase): List<PokemonStat> {
         val query = "SELECT * FROM ${PokemonContract.Stat.TABLE_NAME} WHERE ${PokemonContract.Stat.ID_POKEMON} =  \"$id\""
         val cursor = db.rawQuery(query, null)
         var stats: MutableList<PokemonStat> = ArrayList()
@@ -115,6 +115,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
                 name = cursor.getString(cursor.getColumnIndex(PokemonContract.Stat.NAME))
                 url = cursor.getString(cursor.getColumnIndex(PokemonContract.Stat.URL))
                 stats.add(PokemonStat(NameResource(url,name), basestat))
+                cursor.moveToNext()
             }
         }
         return stats
@@ -122,8 +123,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     @Throws(SQLiteConstraintException::class)
-    fun getAbilityForPokemons(id: Int): List<PokemonAbility> {
-        val db = readableDatabase
+    fun getAbilityForPokemons(id: Int, db: SQLiteDatabase ): List<PokemonAbility> {
         val query = "SELECT * FROM ${PokemonContract.Ability.TABLE_NAME} WHERE ${PokemonContract.Ability.ID_POKEMON} =  \"$id\""
         val cursor = db.rawQuery(query, null)
         var abilities: MutableList<PokemonAbility> = ArrayList()
@@ -135,15 +135,15 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
                 name = cursor.getString(cursor.getColumnIndex(PokemonContract.Ability.NAME))
                 url = cursor.getString(cursor.getColumnIndex(PokemonContract.Ability.URL))
                 abilities.add(PokemonAbility(NameResource(url,name)))
+                cursor.moveToNext()
             }
         }
         return abilities
     }
 
     @Throws(SQLiteConstraintException::class)
-    fun getSpritesForPokemons(id: Int): PokemonSprites {
-        val db = readableDatabase
-        val query = "SELECT * FROM ${PokemonContract.Sprites.TABLE_NAME} WHERE ${PokemonContract.Sprites.ID_POKEMON} =  \"$id\" AND NAME = frontDefault"
+    fun getSpritesForPokemons(id: Int, db: SQLiteDatabase): PokemonSprites {
+        val query = "SELECT * FROM ${PokemonContract.Sprites.TABLE_NAME} WHERE ${PokemonContract.Sprites.ID_POKEMON} =  \"$id\" "
         val cursor = db.rawQuery(query, null)
         var spite: PokemonSprites = PokemonSprites(null,null,null,null,null,null,null,null)
 
@@ -152,6 +152,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
             cursor.moveToFirst()
             url = cursor.getString(cursor.getColumnIndex(PokemonContract.Sprites.VALUE))
             spite.frontDefault = url
+            cursor.moveToNext()
         }
         return spite
     }

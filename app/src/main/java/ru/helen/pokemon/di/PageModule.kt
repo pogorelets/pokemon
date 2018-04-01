@@ -5,6 +5,7 @@ import ru.helen.pokemon.pagefragment.Contract
 import dagger.Provides
 import ru.helen.pokemon.pagefragment.InteractorImpl
 import ru.helen.pokemon.pagefragment.Presenter
+import ru.helen.pokemon.repository.LocalBDRepository
 import ru.helen.pokemon.repository.NetworkRepository
 
 /**
@@ -19,7 +20,7 @@ class PageModule(var view: Contract.ViewPage) {
 
     @PageScope
     @Provides
-    fun provideInteractor(networkRepository: NetworkRepository): Contract.Interactor = InteractorImpl(networkRepository)
+    fun provideInteractor(networkRepository: NetworkRepository, localRepository: LocalBDRepository): Contract.Interactor = InteractorImpl(networkRepository,localRepository)
 
     @PageScope
     @Provides

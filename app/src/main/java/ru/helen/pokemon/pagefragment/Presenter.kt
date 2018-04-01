@@ -38,6 +38,10 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
 
     }
 
+    fun getLocalPokemons(){
+        view.updatelocalpokemons(interactor.getLocalPokemons())
+    }
+
     override fun onSuccessPokemonLoaded(pokemons: List<Pokemon>) {
         view.dismissprogress()
         view.updatelistpokemons(pokemons)

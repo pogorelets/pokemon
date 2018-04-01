@@ -8,8 +8,11 @@ import kotlinx.android.synthetic.main.activity_pokemon.*
 import ru.helen.pokemon.App
 import ru.helen.pokemon.R
 import ru.helen.pokemon.repository.CurrentPokemon
+import javax.inject.Inject
 
 class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
+    @Inject
+    lateinit var presenter: Presenter
     var adapter: AbilityAdapter = AbilityAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
         rvability.setHasFixedSize(true)
         rvability.adapter = adapter
         adapter.changedata(pokemon.abilities!!)
+        btnSave.setOnClickListener {presenter.savePokemon(pokemon)}
 
     }
 

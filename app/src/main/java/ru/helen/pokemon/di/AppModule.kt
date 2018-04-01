@@ -2,8 +2,6 @@ package ru.helen.pokemon.di
 
 import android.content.Context
 import dagger.Module
-import ru.helen.pokemon.repository.NetworkRepositoryImpl
-import ru.helen.pokemon.repository.NetworkRepository
 import javax.inject.Singleton
 import dagger.Provides
 import retrofit2.Retrofit
@@ -15,7 +13,8 @@ import okhttp3.OkHttpClient
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
-import ru.helen.pokemon.repository.PokemonAPI
+import ru.helen.pokemon.repository.*
+import ru.helen.pokemon.repository.localbd.DBHelper
 import java.util.concurrent.TimeUnit
 
 
@@ -74,5 +73,17 @@ class AppModule(var context: Context) {
     @Provides
     @Singleton
     fun provideNetworkRepository(pokemonAPI: PokemonAPI): NetworkRepository = NetworkRepositoryImpl(pokemonAPI)
+
+    @Provides
+    @Singleton
+    fun provideContext(): Context = context
+
+    @Provides
+    @Singleton
+    fun provideDBHelper(context: Context) : DBHelper = DBHelper(context)
+
+    @Provides
+    @Singleton
+    fun provideLocalDBRepository(dbHelper: DBHelper): LocalBDRepository = LocalBDRepositoryImpl(dbHelper)
 
 }

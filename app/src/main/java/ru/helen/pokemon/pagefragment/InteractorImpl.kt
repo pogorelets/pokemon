@@ -5,12 +5,15 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.helen.pokemon.model.Pokemon
+import ru.helen.pokemon.repository.LocalBDRepository
 import ru.helen.pokemon.repository.NetworkRepository
 
 /**
  * Interactor
  */
-class InteractorImpl(val networkRepository: NetworkRepository) : Contract.Interactor {
+class InteractorImpl(val networkRepository: NetworkRepository, val localRepository: LocalBDRepository) : Contract.Interactor {
+
+
     var listpokemons: MutableList<Pokemon> = ArrayList()
 
     override fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded) {
@@ -52,6 +55,10 @@ class InteractorImpl(val networkRepository: NetworkRepository) : Contract.Intera
                         }
                     })
         }
+    }
+
+    override fun getLocalPokemons(): List<Pokemon> {
+        return localRepository.getAllPokemons()
     }
 
 }

@@ -6,7 +6,7 @@ import ru.helen.pokemon.pokemon.PokemonActivity
 /**
  * Subcomponent PokemonComponent
  */
-@PageScope
+@PokemonScope
 @Subcomponent(modules = arrayOf(PokemonModule::class))
 interface PokemonComponent {
     fun inject(activity: PokemonActivity)

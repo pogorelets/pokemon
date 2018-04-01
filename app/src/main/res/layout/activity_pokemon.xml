@@ -13,6 +13,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:text="Save"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/sprite"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/pokemonName"
@@ -20,7 +28,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/sprite" />
+        app:layout_constraintTop_toBottomOf="@id/btnSave" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvStats"
