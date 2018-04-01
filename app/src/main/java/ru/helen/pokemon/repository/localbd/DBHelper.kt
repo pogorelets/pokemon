@@ -79,7 +79,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     @Throws(SQLiteConstraintException::class)
-    fun getAllPokemons(pokemon: Pokemon): List<Pokemon> {
+    fun getAllPokemons(): List<Pokemon> {
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} ORDER BY ${PokemonContract.Pokemon.ID} DESC"
         val cursor = db.rawQuery(query, null)
