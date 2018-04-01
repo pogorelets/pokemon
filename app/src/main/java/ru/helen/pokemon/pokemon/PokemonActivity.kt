@@ -24,16 +24,11 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
                 .load(pokemon.sprites!!.frontDefault)
                 .into(sprite)
         pokemonName.text = pokemon.name
-        stat1.text = pokemon.stats!![0].stat.name
-        stat2.text = pokemon.stats!![1].stat.name
-        stat3.text = pokemon.stats!![2].stat.name
-        stat4.text = pokemon.stats!![3].stat.name
-        stat5.text = pokemon.stats!![4].stat.name
-        value1.text = pokemon.stats!![0].baseStat.toString()
-        value2.text = pokemon.stats!![1].baseStat.toString()
-        value3.text = pokemon.stats!![2].baseStat.toString()
-        value4.text = pokemon.stats!![3].baseStat.toString()
-        value5.text = pokemon.stats!![4].baseStat.toString()
+        var adapterstats = StatsAdapter()
+        rvstats.layoutManager = LinearLayoutManager(this)
+        rvstats.setHasFixedSize(true)
+        rvstats.adapter = adapterstats
+        adapterstats.changedata(pokemon.stats!!)
         rvability.layoutManager = LinearLayoutManager(this)
         rvability.setHasFixedSize(true)
         rvability.adapter = adapter

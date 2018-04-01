@@ -30,100 +30,15 @@
         android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@id/btnSave" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvStats"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvstats"
+        app:layout_constraintTop_toBottomOf="@id/pokemonName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/pokemonName">
+        android:layout_height="wrap_content" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/labelStats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:text="Stats:"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/labelStats"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:id="@+id/stat1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/labelStats"
-                app:layout_constraintLeft_toRightOf="@id/stat1"
-                android:id="@+id/value1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stat1"
-                android:id="@+id/stat2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/stat1"
-                app:layout_constraintLeft_toRightOf="@id/stat2"
-                android:id="@+id/value2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stat2"
-                android:id="@+id/stat3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/stat2"
-                app:layout_constraintLeft_toRightOf="@id/stat3"
-                android:id="@+id/value3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/stat3"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:id="@+id/stat4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/stat3"
-                app:layout_constraintLeft_toRightOf="@id/stat4"
-                android:id="@+id/value4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintTop_toBottomOf="@id/stat4"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:id="@+id/stat5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:paddingLeft="15dp"
-                app:layout_constraintLeft_toRightOf="@id/stat4"
-                app:layout_constraintTop_toBottomOf="@id/stat4"
-                android:id="@+id/value5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
     <TextView
         android:text="Ability"
-        app:layout_constraintTop_toBottomOf="@id/cvStats"
+        app:layout_constraintTop_toBottomOf="@id/rvstats"
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingLeft="15dp"
