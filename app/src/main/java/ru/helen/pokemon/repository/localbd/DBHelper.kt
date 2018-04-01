@@ -69,8 +69,17 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     @Throws(SQLiteConstraintException::class)
+    fun checkPokemons(id: Int): Boolean {
+
+        val db = readableDatabase
+        val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} WHERE ${PokemonContract.Pokemon.ID} =\"$id\""
+        val cursor = db.rawQuery(query, null)
+        if (cursor != null) return true
+        return false
+    }
+
+    @Throws(SQLiteConstraintException::class)
     fun getAllPokemons(pokemon: Pokemon): List<Pokemon> {
-        // Gets the data repository in write mode
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} ORDER BY ${PokemonContract.Pokemon.ID} DESC"
         val cursor = db.rawQuery(query, null)
@@ -92,7 +101,6 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
 
     @Throws(SQLiteConstraintException::class)
     fun getStatForPokemons(id: Int): List<PokemonStat> {
-        // Gets the data repository in write mode
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Stat.TABLE_NAME} WHERE ${PokemonContract.Stat.ID_POKEMON} =  \"$id\""
         val cursor = db.rawQuery(query, null)
@@ -115,7 +123,6 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
 
     @Throws(SQLiteConstraintException::class)
     fun getAbilityForPokemons(id: Int): List<PokemonAbility> {
-        // Gets the data repository in write mode
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Ability.TABLE_NAME} WHERE ${PokemonContract.Ability.ID_POKEMON} =  \"$id\""
         val cursor = db.rawQuery(query, null)
@@ -135,7 +142,6 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
 
     @Throws(SQLiteConstraintException::class)
     fun getSpritesForPokemons(id: Int): PokemonSprites {
-        // Gets the data repository in write mode
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Sprites.TABLE_NAME} WHERE ${PokemonContract.Sprites.ID_POKEMON} =  \"$id\" AND NAME = frontDefault"
         val cursor = db.rawQuery(query, null)
