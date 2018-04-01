@@ -9,7 +9,7 @@ data class PokemonSprites(
         @SerializedName("back_shiny")
         val backShiny: String?,
         @SerializedName("front_default")
-        val frontDefault: String?,
+        var frontDefault: String?,
         @SerializedName("front_shiny")
         val frontShiny: String?,
         @SerializedName("back_female")

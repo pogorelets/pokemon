@@ -6,8 +6,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.SyncStateContract.Helpers.insert
-import ru.helen.pokemon.model.Pokemon
-import ru.helen.pokemon.model.PokemonStat
+import ru.helen.pokemon.model.*
 
 /**
  * Created by lenap on 01.04.2018.
@@ -65,9 +64,94 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
         values.put(PokemonContract.Sprites.VALUE, pokemon.sprites!!.frontDefault)
 
         db.insert(PokemonContract.Sprites.TABLE_NAME,"",values)
-
+        db.close()
         return true
     }
+
+    @Throws(SQLiteConstraintException::class)
+    fun getAllPokemons(pokemon: Pokemon): List<Pokemon> {
+        // Gets the data repository in write mode
+        val db = readableDatabase
+        val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} ORDER BY ${PokemonContract.Pokemon.ID} DESC"
+        val cursor = db.rawQuery(query, null)
+        var pokemons: MutableList<Pokemon> = ArrayList()
+
+        if (cursor!!.moveToFirst()) {
+            while (cursor.isAfterLast == false) {
+                val id = cursor.getInt(cursor.getColumnIndex(PokemonContract.Pokemon.ID))
+                val name = cursor.getString(cursor.getColumnIndex(PokemonContract.Pokemon.NAME))
+                val stats = getStatForPokemons(id)
+                val abilities = getAbilityForPokemons(id)
+                val sprite = getSpritesForPokemons(id)
+                pokemons.add(Pokemon(id,name,abilities,stats,sprite))
+            }
+        }
+        return pokemons
+
+    }
+
+    @Throws(SQLiteConstraintException::class)
+    fun getStatForPokemons(id: Int): List<PokemonStat> {
+        // Gets the data repository in write mode
+        val db = readableDatabase
+        val query = "SELECT * FROM ${PokemonContract.Stat.TABLE_NAME} WHERE ${PokemonContract.Stat.ID_POKEMON} =  \"$id\""
+        val cursor = db.rawQuery(query, null)
+        var stats: MutableList<PokemonStat> = ArrayList()
+
+        var url: String
+        var name: String
+        var basestat: Int
+        if (cursor!!.moveToFirst()) {
+            while (cursor.isAfterLast == false) {
+                basestat = cursor.getInt(cursor.getColumnIndex(PokemonContract.Stat.BASESTAT))
+                name = cursor.getString(cursor.getColumnIndex(PokemonContract.Stat.NAME))
+                url = cursor.getString(cursor.getColumnIndex(PokemonContract.Stat.URL))
+                stats.add(PokemonStat(NameResource(url,name), basestat))
+            }
+        }
+        return stats
+
+    }
+
+    @Throws(SQLiteConstraintException::class)
+    fun getAbilityForPokemons(id: Int): List<PokemonAbility> {
+        // Gets the data repository in write mode
+        val db = readableDatabase
+        val query = "SELECT * FROM ${PokemonContract.Ability.TABLE_NAME} WHERE ${PokemonContract.Ability.ID_POKEMON} =  \"$id\""
+        val cursor = db.rawQuery(query, null)
+        var abilities: MutableList<PokemonAbility> = ArrayList()
+
+        var url: String
+        var name: String
+        if (cursor!!.moveToFirst()) {
+            while (cursor.isAfterLast == false) {
+                name = cursor.getString(cursor.getColumnIndex(PokemonContract.Ability.NAME))
+                url = cursor.getString(cursor.getColumnIndex(PokemonContract.Ability.URL))
+                abilities.add(PokemonAbility(NameResource(url,name)))
+            }
+        }
+        return abilities
+    }
+
+    @Throws(SQLiteConstraintException::class)
+    fun getSpritesForPokemons(id: Int): PokemonSprites {
+        // Gets the data repository in write mode
+        val db = readableDatabase
+        val query = "SELECT * FROM ${PokemonContract.Sprites.TABLE_NAME} WHERE ${PokemonContract.Sprites.ID_POKEMON} =  \"$id\" AND NAME = frontDefault"
+        val cursor = db.rawQuery(query, null)
+        var spite: PokemonSprites = PokemonSprites(null,null,null,null,null,null,null,null)
+
+        var url: String
+        if (cursor!!.moveToFirst()) {
+            cursor.moveToFirst()
+            url = cursor.getString(cursor.getColumnIndex(PokemonContract.Sprites.VALUE))
+            spite.frontDefault = url
+        }
+        return spite
+    }
+
+
+
 
     companion object {
         val DATABASE_NAME = "Pokemon.db"
