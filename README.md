@@ -30,7 +30,7 @@ test application for show pokemons
 Будет плюсом использование Dependency Injection.
 Будет плюсом использование любого MV* паттерна или CleanArchetecture.
 ![Главный экран](https://github.com/pogorelets/pokemon/blob/master/pokrmon1.png) 
-![Главный экран](https://github.com/pogorelets/pokemon/blob/master/pokrmon2.png)
-![Главный экран](https://github.com/pogorelets/pokemon/blob/master/pokrmon3.png)
-![Экран детализации](https://github.com/pogorelets/pokemon/blob/master/pokrmon4.png)
-![Экран детализации](https://github.com/pogorelets/pokemon/blob/master/pokrmon5.png) 
+![Главный экран](https://github.com/pogorelets/pokemon/blob/master/pokemon2.png)
+![Главный экран](https://github.com/pogorelets/pokemon/blob/master/pokemon3.png)
+![Экран детализации](https://github.com/pogorelets/pokemon/blob/master/pokemon4.png)
+![Экран детализации](https://github.com/pogorelets/pokemon/blob/master/pokemon5.png) 
