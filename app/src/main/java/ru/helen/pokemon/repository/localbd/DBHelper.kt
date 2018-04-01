@@ -37,24 +37,24 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
         db.insert(PokemonContract.Pokemon.TABLE_NAME, "", values)
 
 
-        values = ContentValues()
+
         for (stat in pokemon.stats!!){
+            values = ContentValues()
             values.put(PokemonContract.Stat.ID_POKEMON, pokemon.id)
             values.put(PokemonContract.Stat.NAME, stat.stat.name)
             values.put(PokemonContract.Stat.URL, stat.stat.url)
             values.put(PokemonContract.Stat.BASESTAT, stat.baseStat)
+            db.insert(PokemonContract.Stat.TABLE_NAME, "", values)
         }
 
-        db.insert(PokemonContract.Stat.TABLE_NAME, "", values)
-
-        values = ContentValues()
-
         for (ability in pokemon.abilities!!){
+            values = ContentValues()
             values.put(PokemonContract.Ability.NAME,ability.ability.name)
             values.put(PokemonContract.Ability.URL,ability.ability.url)
             values.put(PokemonContract.Ability.ID_POKEMON, pokemon.id)
+            db.insert(PokemonContract.Ability.TABLE_NAME, "", values)
         }
-        db.insert(PokemonContract.Ability.TABLE_NAME, "", values)
+
 
         //Нам нужна только одна картинка, поэтому вставим её
         values = ContentValues()
