@@ -3,6 +3,7 @@ package ru.helen.pokemon.pokemon
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_pokemon.*
 import ru.helen.pokemon.App
@@ -24,6 +25,7 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
                 .load(pokemon.sprites!!.frontDefault)
                 .into(sprite)
         pokemonName.text = pokemon.name
+        presenter.checkSave(pokemon.id!!)
         var adapterstats = StatsAdapter()
         rvstats.layoutManager = LinearLayoutManager(this)
         rvstats.setHasFixedSize(true)
@@ -37,7 +39,13 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
 
     }
 
+    override fun btnSaveVisible() {
+        btnSave.visibility = View.VISIBLE
+    }
 
+    override fun btnSaveInvisible() {
+        btnSave.visibility = View.INVISIBLE
+    }
 
     override fun onStop() {
         super.onStop()

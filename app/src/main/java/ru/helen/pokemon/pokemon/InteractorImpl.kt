@@ -9,6 +9,10 @@ import ru.helen.pokemon.repository.localbd.DBHelper
  * Interactor
  */
 class InteractorImpl(val localRepository: LocalBDRepository) : Contract.Interactor{
+    override fun checkPokemons(id: Int): Boolean {
+        return localRepository.checkPokemons(id)
+    }
+
     override fun savePokemon(pokemon: Pokemon): Boolean {
         return localRepository.insertPokemon(pokemon)
     }

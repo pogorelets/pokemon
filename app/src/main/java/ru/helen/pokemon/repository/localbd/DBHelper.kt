@@ -10,7 +10,7 @@ import ru.helen.pokemon.model.*
 /**
  * Created by lenap on 01.04.2018.
  */
-class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         db!!.execSQL(SQL_CREATE_POKEMONS)
         db.execSQL(SQL_CREATE_STATS)
@@ -38,7 +38,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
 
 
 
-        for (stat in pokemon.stats!!){
+        for (stat in pokemon.stats!!) {
             values = ContentValues()
             values.put(PokemonContract.Stat.ID_POKEMON, pokemon.id)
             values.put(PokemonContract.Stat.NAME, stat.stat.name)
@@ -47,10 +47,10 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
             db.insert(PokemonContract.Stat.TABLE_NAME, "", values)
         }
 
-        for (ability in pokemon.abilities!!){
+        for (ability in pokemon.abilities!!) {
             values = ContentValues()
-            values.put(PokemonContract.Ability.NAME,ability.ability.name)
-            values.put(PokemonContract.Ability.URL,ability.ability.url)
+            values.put(PokemonContract.Ability.NAME, ability.ability.name)
+            values.put(PokemonContract.Ability.URL, ability.ability.url)
             values.put(PokemonContract.Ability.ID_POKEMON, pokemon.id)
             db.insert(PokemonContract.Ability.TABLE_NAME, "", values)
         }
@@ -62,7 +62,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
         values.put(PokemonContract.Sprites.ID_POKEMON, pokemon.id)
         values.put(PokemonContract.Sprites.VALUE, pokemon.sprites!!.frontDefault)
 
-        db.insert(PokemonContract.Sprites.TABLE_NAME,"",values)
+        db.insert(PokemonContract.Sprites.TABLE_NAME, "", values)
         db.close()
         return true
     }
@@ -73,7 +73,11 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} WHERE ${PokemonContract.Pokemon.ID} =\"$id\""
         val cursor = db.rawQuery(query, null)
-        if (cursor != null) return true
+        if (cursor.count > 0) {
+            db.close()
+            return true
+        }
+
         return false
     }
 
@@ -91,7 +95,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
                 val stats = getStatForPokemons(id, db)
                 val abilities = getAbilityForPokemons(id, db)
                 val sprite = getSpritesForPokemons(id, db)
-                pokemons.add(Pokemon(id,name,abilities,stats,sprite))
+                pokemons.add(Pokemon(id, name, abilities, stats, sprite))
                 cursor.moveToNext()
             }
         }
@@ -114,7 +118,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
                 basestat = cursor.getInt(cursor.getColumnIndex(PokemonContract.Stat.BASESTAT))
                 name = cursor.getString(cursor.getColumnIndex(PokemonContract.Stat.NAME))
                 url = cursor.getString(cursor.getColumnIndex(PokemonContract.Stat.URL))
-                stats.add(PokemonStat(NameResource(url,name), basestat))
+                stats.add(PokemonStat(NameResource(url, name), basestat))
                 cursor.moveToNext()
             }
         }
@@ -123,7 +127,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     @Throws(SQLiteConstraintException::class)
-    fun getAbilityForPokemons(id: Int, db: SQLiteDatabase ): List<PokemonAbility> {
+    fun getAbilityForPokemons(id: Int, db: SQLiteDatabase): List<PokemonAbility> {
         val query = "SELECT * FROM ${PokemonContract.Ability.TABLE_NAME} WHERE ${PokemonContract.Ability.ID_POKEMON} =  \"$id\""
         val cursor = db.rawQuery(query, null)
         var abilities: MutableList<PokemonAbility> = ArrayList()
@@ -134,7 +138,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
             while (cursor.isAfterLast == false) {
                 name = cursor.getString(cursor.getColumnIndex(PokemonContract.Ability.NAME))
                 url = cursor.getString(cursor.getColumnIndex(PokemonContract.Ability.URL))
-                abilities.add(PokemonAbility(NameResource(url,name)))
+                abilities.add(PokemonAbility(NameResource(url, name)))
                 cursor.moveToNext()
             }
         }
@@ -145,7 +149,7 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
     fun getSpritesForPokemons(id: Int, db: SQLiteDatabase): PokemonSprites {
         val query = "SELECT * FROM ${PokemonContract.Sprites.TABLE_NAME} WHERE ${PokemonContract.Sprites.ID_POKEMON} =  \"$id\" "
         val cursor = db.rawQuery(query, null)
-        var spite: PokemonSprites = PokemonSprites(null,null,null,null,null,null,null,null)
+        var spite: PokemonSprites = PokemonSprites(null, null, null, null, null, null, null, null)
 
         var url: String
         if (cursor!!.moveToFirst()) {
@@ -158,56 +162,53 @@ class DBHelper(context: Context) :  SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
 
-
-
     companion object {
         val DATABASE_NAME = "Pokemon.db"
-        val DATABASE_VERSION =1
+        val DATABASE_VERSION = 1
 
         private val SQL_CREATE_POKEMONS =
                 "CREATE TABLE " + PokemonContract.Pokemon.TABLE_NAME + " (" +
-                        PokemonContract.Pokemon.ID  + " INTEGER PRIMARY KEY," +
-                        PokemonContract.Pokemon.NAME  + " TEXT)"
+                        PokemonContract.Pokemon.ID + " INTEGER PRIMARY KEY," +
+                        PokemonContract.Pokemon.NAME + " TEXT)"
 
-        private val SQL_DELETE_POKEMONS = "DROP TABLE IF EXISTS " +  PokemonContract.Pokemon.TABLE_NAME
+        private val SQL_DELETE_POKEMONS = "DROP TABLE IF EXISTS " + PokemonContract.Pokemon.TABLE_NAME
 
         private val SQL_CREATE_STATS =
                 "CREATE TABLE " + PokemonContract.Stat.TABLE_NAME + " (" +
-                        PokemonContract.Stat.ID_POKEMON  + " INTEGER, " +
-                        PokemonContract.Stat.NAME  + " TEXT, " +
+                        PokemonContract.Stat.ID_POKEMON + " INTEGER, " +
+                        PokemonContract.Stat.NAME + " TEXT, " +
                         PokemonContract.Stat.URL + " TEXT, " +
                         PokemonContract.Stat.BASESTAT + " INTEGER, " +
-                        "PRIMARY KEY(" + PokemonContract.Stat.ID_POKEMON+ "," +
+                        "PRIMARY KEY(" + PokemonContract.Stat.ID_POKEMON + "," +
                         PokemonContract.Stat.NAME + ")," +
-                        "FOREIGN KEY (" + PokemonContract.Stat.ID_POKEMON + ") REFERENCES " +  PokemonContract.Pokemon.TABLE_NAME + "(" + PokemonContract.Pokemon.ID +
+                        "FOREIGN KEY (" + PokemonContract.Stat.ID_POKEMON + ") REFERENCES " + PokemonContract.Pokemon.TABLE_NAME + "(" + PokemonContract.Pokemon.ID +
                         ") ON DELETE CASCADE ON UPDATE NO ACTION )"
 
-        private val SQL_DELETE_STATS = "DROP TABLE IF EXISTS " +  PokemonContract.Stat.TABLE_NAME
+        private val SQL_DELETE_STATS = "DROP TABLE IF EXISTS " + PokemonContract.Stat.TABLE_NAME
 
         private val SQL_CREATE_ABILITY =
                 "CREATE TABLE " + PokemonContract.Ability.TABLE_NAME + " (" +
-                        PokemonContract.Ability.ID_POKEMON  + " INTEGER, " +
-                        PokemonContract.Ability.NAME  + " TEXT, " +
+                        PokemonContract.Ability.ID_POKEMON + " INTEGER, " +
+                        PokemonContract.Ability.NAME + " TEXT, " +
                         PokemonContract.Ability.URL + " TEXT, " +
-                        "PRIMARY KEY(" + PokemonContract.Ability.ID_POKEMON+ "," +
+                        "PRIMARY KEY(" + PokemonContract.Ability.ID_POKEMON + "," +
                         PokemonContract.Ability.NAME + ")," +
-                        "FOREIGN KEY (" + PokemonContract.Ability.ID_POKEMON + ") REFERENCES " +  PokemonContract.Pokemon.TABLE_NAME + "(" + PokemonContract.Pokemon.ID +
+                        "FOREIGN KEY (" + PokemonContract.Ability.ID_POKEMON + ") REFERENCES " + PokemonContract.Pokemon.TABLE_NAME + "(" + PokemonContract.Pokemon.ID +
                         ") ON DELETE CASCADE ON UPDATE NO ACTION )"
 
-        private val SQL_DELETE_ABILITY = "DROP TABLE IF EXISTS " +  PokemonContract.Ability.TABLE_NAME
+        private val SQL_DELETE_ABILITY = "DROP TABLE IF EXISTS " + PokemonContract.Ability.TABLE_NAME
 
         private val SQL_CREATE_SPRITES =
                 "CREATE TABLE " + PokemonContract.Sprites.TABLE_NAME + " (" +
-                        PokemonContract.Sprites.ID_POKEMON  + " INTEGER, " +
-                        PokemonContract.Sprites.NAME  + " TEXT, " +
+                        PokemonContract.Sprites.ID_POKEMON + " INTEGER, " +
+                        PokemonContract.Sprites.NAME + " TEXT, " +
                         PokemonContract.Sprites.VALUE + " TEXT, " +
-                        "PRIMARY KEY(" + PokemonContract.Sprites.ID_POKEMON+ "," +
+                        "PRIMARY KEY(" + PokemonContract.Sprites.ID_POKEMON + "," +
                         PokemonContract.Sprites.NAME + ")," +
-                        "FOREIGN KEY (" + PokemonContract.Sprites.ID_POKEMON + ") REFERENCES " +  PokemonContract.Pokemon.TABLE_NAME + "(" + PokemonContract.Pokemon.ID +
+                        "FOREIGN KEY (" + PokemonContract.Sprites.ID_POKEMON + ") REFERENCES " + PokemonContract.Pokemon.TABLE_NAME + "(" + PokemonContract.Pokemon.ID +
                         ") ON DELETE CASCADE ON UPDATE NO ACTION )"
 
-        private val SQL_DELETE_SPRITES = "DROP TABLE IF EXISTS " +  PokemonContract.Sprites.TABLE_NAME
-
+        private val SQL_DELETE_SPRITES = "DROP TABLE IF EXISTS " + PokemonContract.Sprites.TABLE_NAME
 
 
     }
