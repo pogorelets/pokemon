@@ -14,7 +14,7 @@ interface Contract {
         fun showerror(error : String)
         fun updatelistpokemons(pokemons : List<Pokemons>)
         fun updatelocalpokemons(pokemons : List<Pokemon>)
-        fun onPokemonClick(pokemon: Pokemon)
+        fun onPokemonClick(pokemon: Pokemons)
     }
     interface Interactor{
         fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded)

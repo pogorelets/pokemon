@@ -5,7 +5,7 @@ import ru.helen.pokemon.model.Pokemon
 /**
  * Presenter
  */
-class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interactor) {
+class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interactor) : Contract.Interactor.OnSuccessPokemonLoad {
 
     fun savePokemon(pokemon: Pokemon) {
         if (interactor.savePokemon(pokemon)){
@@ -27,6 +27,20 @@ class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interac
         if (interactor.deletePokemon(id)){
             view.back()
         }
+    }
+
+    fun getPokemon(id : Int){
+        view.showprogress()
+        interactor.getPokemon(id,this)
+    }
+
+    override fun onSuccessLoad(pokemon: Pokemon) {
+        view.initView(pokemon)
+        view.dismissprogress()
+    }
+
+    override fun onErrorLoad(error: String) {
+        view.dismissprogress()
     }
 
 }

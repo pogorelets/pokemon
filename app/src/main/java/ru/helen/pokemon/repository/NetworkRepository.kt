@@ -13,7 +13,7 @@ import ru.helen.pokemon.pagefragment.Contract
 interface NetworkRepository {
     fun getPokemonList(limit: Int, offset: Int): Single<Response>
 
-    fun getPokemon(name: String): Observable<Pokemon>
+    fun getPokemon(id: Int): Single<Pokemon>
 
     fun unsubscribe()
 }

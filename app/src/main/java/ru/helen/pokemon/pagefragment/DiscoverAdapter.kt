@@ -38,7 +38,7 @@ class DiscoverAdapter(var listener: Contract.ViewPage): RecyclerView.Adapter<Dis
         fun bind(pokemon: Pokemons, listener: Contract.ViewPage) = with(itemView){
             namePokemon.text = pokemon.name
             itemView.setOnClickListener {
-               // listener.onPokemonClick(pokemon)
+               listener.onPokemonClick(pokemon)
             }
             Glide.with(itemView.context)
                     .load(pokemon.sprite)

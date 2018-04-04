@@ -44,9 +44,6 @@ class PageFragment : Fragment(), Contract.ViewPage {
             val firstPosition = gridLayoutManager.findFirstVisibleItemPosition();
             val visibleitemcount = gridLayoutManager.getChildCount()
              //вычисляем момент когда пора загружать следующую порцию покемонов
-            Log.e("totalItemCount", totalItemCount.toString())
-            Log.e("firstPosition",firstPosition.toString())
-            Log.e("visibleitemcount", visibleitemcount.toString())
             if (firstPosition + visibleitemcount >= totalItemCount){
                 if (!isLoading){
                     presenter.setPosition(firstPosition,visibleitemcount)
@@ -115,9 +112,9 @@ class PageFragment : Fragment(), Contract.ViewPage {
         presenter.getLocalPokemons()
     }
 
-    override fun onPokemonClick(pokemon: Pokemon) {
-        CurrentPokemon.pokemon = pokemon
-        var intent = Intent(context,PokemonActivity::class.java)
+    override fun onPokemonClick(pokemon: Pokemons) {
+        val intent = Intent(context,PokemonActivity::class.java)
+        intent.putExtra("id", pokemon.id)
         startActivity(intent)
     }
 

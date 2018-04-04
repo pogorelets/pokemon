@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_pokemon.*
 import ru.helen.pokemon.App
 import ru.helen.pokemon.R
 import ru.helen.pokemon.main.MainActivity
+import ru.helen.pokemon.model.Pokemon
 import ru.helen.pokemon.pagefragment.PageFragment
 import ru.helen.pokemon.repository.CurrentPokemon
 import javax.inject.Inject
@@ -24,14 +25,16 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon)
         App.instance.initPokemonComponent(this).inject(this)
+        presenter.getPokemon(intent.getIntExtra("id",1))
+    }
 
-        val pokemon = CurrentPokemon.pokemon
+    override fun initView(pokemon: Pokemon) {
         Glide.with(this)
                 .load(pokemon.sprites!!.frontDefault)
                 .into(sprite)
         pokemonName.text = pokemon.name
-        presenter.checkSave(pokemon.id!!)
-        var adapterstats = StatsAdapter()
+//        presenter.checkSave(pokemon.id!!)
+        val adapterstats = StatsAdapter()
         rvstats.layoutManager = LinearLayoutManager(this)
         rvstats.setHasFixedSize(true)
         rvstats.adapter = adapterstats
@@ -40,10 +43,24 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
         rvability.setHasFixedSize(true)
         rvability.adapter = adapter
         adapter.changedata(pokemon.abilities!!)
-        btnSave.setOnClickListener {presenter.savePokemon(pokemon)}
-        btnDelete.setOnClickListener { presenter.deletePokemon(pokemon.id!!) }
-
+        lstats.visibility = View.VISIBLE
+        lability.visibility = View.VISIBLE
+        //btnSave.setOnClickListener {presenter.savePokemon(pokemon)}
+       // btnDelete.setOnClickListener { presenter.deletePokemon(pokemon.id!!) }
     }
+
+    override fun showprogress() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun dismissprogress() {
+        progressBar.visibility = View.INVISIBLE
+    }
+
+    override fun showError(error: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
     override fun btnSaveVisible() {
         btnSave.visibility = View.VISIBLE

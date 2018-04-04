@@ -16,8 +16,8 @@ interface PokemonAPI {
     @GET("pokemon")
     fun getPokemonListtest(@Query("offset") offset: Int, @Query("limit") limit: Int): Single<Response>
 
-    @GET("pokemon/{name}")
-    fun getPokemon(@Path("name") name: String): Observable<Pokemon>
+    @GET("pokemon/{id}")
+    fun getPokemon(@Path("id") id: Int): Single<Pokemon>
 
     @GET("pokemon")
     fun getPokemonList(@Query("limit") limit: Int, @Query("offset") offset: Int): Single<Response>

@@ -14,7 +14,7 @@ import ru.helen.pokemon.pagefragment.Contract
  */
 class NetworkRepositoryImpl(var api: PokemonAPI) : NetworkRepository {
     lateinit var observerlist: Single<Response>
-    lateinit var observerpokemon: Observable<Pokemon>
+    lateinit var observerpokemon: Single<Pokemon>
 
 
     override fun getPokemonList(limit: Int,offset: Int): Single<Response> {
@@ -25,8 +25,8 @@ class NetworkRepositoryImpl(var api: PokemonAPI) : NetworkRepository {
 
     }
 
-    override fun getPokemon(name: String): Observable<Pokemon> {
-        observerpokemon = api.getPokemon(name)
+    override fun getPokemon(id: Int): Single<Pokemon> {
+        observerpokemon = api.getPokemon(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
         return observerpokemon

@@ -5,14 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ru.helen.pokemon.pokemon.PokemonActivity">
+    <ProgressBar
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:visibility="invisible"/>
 
     <ImageView
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
         android:id="@+id/sprite"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+      />
     <Button
         android:text="Save"
         android:visibility="gone"
@@ -38,15 +49,26 @@
         android:gravity="center_horizontal"
         android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@id/btnDelete" />
+    <TextView
+        android:text="Stats"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/btnDelete"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingLeft="15dp"
+        android:id="@+id/lstats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvstats"
-        app:layout_constraintTop_toBottomOf="@id/pokemonName"
+        app:layout_constraintTop_toBottomOf="@id/lstats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:visibility="invisible"
         android:text="Ability"
         app:layout_constraintTop_toBottomOf="@id/rvstats"
         android:textSize="20sp"
