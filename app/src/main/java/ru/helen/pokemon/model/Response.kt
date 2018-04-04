@@ -9,5 +9,5 @@ data class Response(
         @SerializedName("count")
         var count: Int,
         @SerializedName("results")
-        var result: List<Pokemon>
+        var result: List<Pokemons>
 )

@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.pokemon_item.view.*
 import ru.helen.pokemon.R
-import ru.helen.pokemon.model.Pokemon
+import ru.helen.pokemon.model.Pokemons
 
 
 /**
  * DiscoverAdapter
  */
 class DiscoverAdapter(var listener: Contract.ViewPage): RecyclerView.Adapter<DiscoverAdapter.ViewHolder>() {
-    private var pokemons: List<Pokemon> = ArrayList()
+    private var pokemons: List<Pokemons> = ArrayList()
 
-    fun changedata(pokemons:List<Pokemon>){
+    fun changedata(pokemons:List<Pokemons>){
         this.pokemons = pokemons
         notifyDataSetChanged()
     }
@@ -35,13 +35,13 @@ class DiscoverAdapter(var listener: Contract.ViewPage): RecyclerView.Adapter<Dis
 
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(pokemon: Pokemon, listener: Contract.ViewPage) = with(itemView){
+        fun bind(pokemon: Pokemons, listener: Contract.ViewPage) = with(itemView){
             namePokemon.text = pokemon.name
             itemView.setOnClickListener {
-                listener.onPokemonClick(pokemon)
+               // listener.onPokemonClick(pokemon)
             }
             Glide.with(itemView.context)
-                    .load(pokemon.sprites!!.frontDefault)
+                    .load(pokemon.sprite)
                     .into(itemView.spriteImage)
         }
     }

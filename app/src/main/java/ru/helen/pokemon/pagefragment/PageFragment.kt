@@ -14,11 +14,14 @@ import ru.helen.pokemon.R
 import ru.helen.pokemon.model.Pokemon
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
+import android.util.Log
+import ru.helen.pokemon.model.Pokemons
 import ru.helen.pokemon.pokemon.PokemonActivity
 import ru.helen.pokemon.repository.CurrentPokemon
 
 
 class PageFragment : Fragment(), Contract.ViewPage {
+
 
 
     private var mPage: Int = 0
@@ -41,7 +44,9 @@ class PageFragment : Fragment(), Contract.ViewPage {
             val firstPosition = gridLayoutManager.findFirstVisibleItemPosition();
             val visibleitemcount = gridLayoutManager.getChildCount()
              //вычисляем момент когда пора загружать следующую порцию покемонов
-
+            Log.e("totalItemCount", totalItemCount.toString())
+            Log.e("firstPosition",firstPosition.toString())
+            Log.e("visibleitemcount", visibleitemcount.toString())
             if (firstPosition + visibleitemcount >= totalItemCount){
                 if (!isLoading){
                     presenter.setPosition(firstPosition,visibleitemcount)
@@ -81,7 +86,7 @@ class PageFragment : Fragment(), Contract.ViewPage {
     }
 
     override fun updatelocalpokemons(pokemons: List<Pokemon>) {
-        localadapter.changedata(pokemons)
+       // localadapter.changedata(pokemons)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -137,7 +142,7 @@ class PageFragment : Fragment(), Contract.ViewPage {
         textError.text = "Ошибка " + error
     }
 
-    override fun updatelistpokemons(pokemons: List<Pokemon>) {
+    override fun updatelistpokemons(pokemons: List<Pokemons>) {
         adapter.changedata(pokemons)
     }
 }

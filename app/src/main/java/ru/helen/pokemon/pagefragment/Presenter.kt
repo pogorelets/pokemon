@@ -2,6 +2,7 @@ package ru.helen.pokemon.pagefragment
 
 import android.util.Log
 import ru.helen.pokemon.model.Pokemon
+import ru.helen.pokemon.model.Pokemons
 
 /**
  * Presenter
@@ -18,10 +19,8 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
 
     fun setPosition(firstposition : Int, visiblecount: Int){
         if (firstposition != first) {
-            Log.e("PUFF", "PUFF")
             first = firstposition
             nextOffset()
-            Log.e("NEWPOKEMONS","NEWPOKEMONS")
             getPokemons()
         }
     }
@@ -31,7 +30,6 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
     }
 
     fun getPokemons(){
-        Log.e("LOADING","TRUE")
         view.showprogress()
         interactor.getPokemonList(limit,offset,this)
 
@@ -45,7 +43,7 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
 
     }
 
-    override fun onSuccessPokemonLoaded(pokemons: List<Pokemon>) {
+    override fun onSuccessPokemonLoaded(pokemons: List<Pokemons>) {
         view.dismissprogress()
         view.updatelistpokemons(pokemons)
     }

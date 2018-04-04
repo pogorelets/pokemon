@@ -1,6 +1,7 @@
 package ru.helen.pokemon.pagefragment
 
 import ru.helen.pokemon.model.Pokemon
+import ru.helen.pokemon.model.Pokemons
 
 /**
  * Contracr for PageFragment
@@ -11,7 +12,7 @@ interface Contract {
         fun showprogress()
         fun dismissprogress()
         fun showerror(error : String)
-        fun updatelistpokemons(pokemons : List<Pokemon>)
+        fun updatelistpokemons(pokemons : List<Pokemons>)
         fun updatelocalpokemons(pokemons : List<Pokemon>)
         fun onPokemonClick(pokemon: Pokemon)
     }
@@ -22,7 +23,7 @@ interface Contract {
     }
 
     interface PokemonsLoaded {
-        fun onSuccessPokemonLoaded(pokemons : List<Pokemon>)
+        fun onSuccessPokemonLoaded(pokemons : List<Pokemons>)
         fun onErrorPokemonLoaded(error : String)
     }
 }
