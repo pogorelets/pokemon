@@ -33,8 +33,8 @@ class NetworkRepositoryImpl(var api: PokemonAPI) : NetworkRepository {
     }
 
     override fun unsubscribe() {
-        observerlist.unsubscribeOn(Schedulers.io())
-        observerpokemon.unsubscribeOn(Schedulers.io())
+     //   observerlist.unsubscribeOn(Schedulers.io())
+    //    observerpokemon.unsubscribeOn(Schedulers.io())
     }
 
 

@@ -16,9 +16,11 @@ class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interac
     }
 
     fun checkSave(id: Int) {
-        if (interactor.checkPokemons(id)) {
+        if (interactor.checkPokemons(id)){
+            view.initView(interactor.getLocalPokemon(id))
             view.btnSaveInvisible()
         } else {
+            interactor.getPokemon(id,this)
             view.btnSaveVisible()
         }
     }
@@ -33,6 +35,10 @@ class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interac
         view.showprogress()
         interactor.getPokemon(id,this)
     }
+
+//    fun getLocalPokemon(id : Int){
+//        interactor.getPokemon(id,this)
+//    }
 
     override fun onSuccessLoad(pokemon: Pokemon) {
         view.initView(pokemon)

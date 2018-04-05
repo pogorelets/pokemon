@@ -1,7 +1,5 @@
 package ru.helen.pokemon.pagefragment
 
-import android.util.Log
-import ru.helen.pokemon.model.Pokemon
 import ru.helen.pokemon.model.Pokemons
 
 /**
@@ -40,7 +38,7 @@ class Presenter(val view: Contract.ViewPage, val interactor: Contract.Interactor
     }
 
     fun unsubscribe(){
-
+        interactor.unsubscribe()
     }
 
     override fun onSuccessPokemonLoaded(pokemons: List<Pokemons>) {

@@ -1,6 +1,7 @@
 package ru.helen.pokemon.pagefragment
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,13 +12,10 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_page.*
 import ru.helen.pokemon.App
 import ru.helen.pokemon.R
-import ru.helen.pokemon.model.Pokemon
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import ru.helen.pokemon.model.Pokemons
 import ru.helen.pokemon.pokemon.PokemonActivity
-import ru.helen.pokemon.repository.CurrentPokemon
 
 
 class PageFragment : Fragment(), Contract.ViewPage {
@@ -82,8 +80,8 @@ class PageFragment : Fragment(), Contract.ViewPage {
         return inflater!!.inflate(R.layout.fragment_page, container, false)
     }
 
-    override fun updatelocalpokemons(pokemons: List<Pokemon>) {
-       // localadapter.changedata(pokemons)
+    override fun updatelocalpokemons(pokemons: List<Pokemons>) {
+        localadapter.changedata(pokemons)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,7 +134,8 @@ class PageFragment : Fragment(), Contract.ViewPage {
 
     override fun showerror(error: String) {
         textError.visibility = View.INVISIBLE
-        textError.text = "Ошибка " + error
+        val mes = "Ошибка ${error}"
+        textError.text = mes
     }
 
     override fun updatelistpokemons(pokemons: List<Pokemons>) {

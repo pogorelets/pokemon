@@ -38,7 +38,7 @@ class InteractorImpl(val networkRepository: NetworkRepository, val localReposito
 
     }
 
-    override fun getLocalPokemons(): List<Pokemon> {
+    override fun getLocalPokemons(): List<Pokemons> {
         return localRepository.getAllPokemons()
     }
 
@@ -54,7 +54,7 @@ class InteractorImpl(val networkRepository: NetworkRepository, val localReposito
     fun makeList(pokemons: List<Pokemons>): List<Pokemons> {
         val list = pokemons
         for (pokemon in list) {
-            val id = getID(pokemon.url)
+            val id = getID(pokemon.url!!)
             pokemon.id = id.toInt()
             pokemon.sprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png"
         }

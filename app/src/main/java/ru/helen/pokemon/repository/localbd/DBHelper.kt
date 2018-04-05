@@ -24,15 +24,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
 
     @Throws(SQLiteConstraintException::class)
     fun insertPokemon(pokemon: Pokemon): Boolean {
-        // Gets the data repository in write mode
         val db = writableDatabase
 
-        // Create a new map of values, where column names are the keys
         var values = ContentValues()
         values.put(PokemonContract.Pokemon.ID, pokemon.id)
         values.put(PokemonContract.Pokemon.NAME, pokemon.name)
 
-        // Insert the new row, returning the primary key value of the new row
 
         db.insert(PokemonContract.Pokemon.TABLE_NAME, "", values)
 
@@ -89,12 +86,33 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     @Throws(SQLiteConstraintException::class)
-    fun getAllPokemons(): List<Pokemon> {
+    fun getAllPokemons(): List<Pokemons> {
         val db = readableDatabase
         val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} ORDER BY ${PokemonContract.Pokemon.ID} DESC"
         val cursor = db.rawQuery(query, null)
-        var pokemons: MutableList<Pokemon> = ArrayList()
+        var pokemons: MutableList<Pokemons> = ArrayList()
 
+        if (cursor!!.moveToFirst()) {
+            while (cursor.isAfterLast == false) {
+                val id = cursor.getInt(cursor.getColumnIndex(PokemonContract.Pokemon.ID))
+                val name = cursor.getString(cursor.getColumnIndex(PokemonContract.Pokemon.NAME))
+                val sprite = getSpritesForPokemons(id, db).frontDefault
+                pokemons.add(Pokemons(null,name, id, sprite))
+                cursor.moveToNext()
+            }
+        }
+        db.close()
+        return pokemons
+
+    }
+
+    @Throws(SQLiteConstraintException::class)
+    fun getPokemonsByID(id: Int): Pokemon {
+        val db = readableDatabase
+        val query = "SELECT * FROM ${PokemonContract.Pokemon.TABLE_NAME} WHERE ${PokemonContract.Pokemon.ID} =  \"$id\" LIMIT 1"
+        val cursor = db.rawQuery(query, null)
+
+        lateinit var pokemon: Pokemon
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
                 val id = cursor.getInt(cursor.getColumnIndex(PokemonContract.Pokemon.ID))
@@ -102,12 +120,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 val stats = getStatForPokemons(id, db)
                 val abilities = getAbilityForPokemons(id, db)
                 val sprite = getSpritesForPokemons(id, db)
-                pokemons.add(Pokemon(id, name, abilities, stats, sprite))
+                pokemon = Pokemon(id, name, abilities,stats,sprite)
                 cursor.moveToNext()
             }
         }
         db.close()
-        return pokemons
+        return pokemon
 
     }
 

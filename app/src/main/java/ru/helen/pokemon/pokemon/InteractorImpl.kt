@@ -10,6 +10,10 @@ import ru.helen.pokemon.repository.NetworkRepository
  * Interactor
  */
 class InteractorImpl(val localRepository: LocalBDRepository, val networkRepository: NetworkRepository) : Contract.Interactor{
+    override fun getLocalPokemon(id: Int): Pokemon {
+        return localRepository.getPokemon(id)
+    }
+
     override fun getPokemon(id: Int, listener: Contract.Interactor.OnSuccessPokemonLoad) {
         networkRepository.getPokemon(id).subscribe({r -> listener.onSuccessLoad(r)},{throwable->listener.onErrorLoad(throwable.toString())})
     }

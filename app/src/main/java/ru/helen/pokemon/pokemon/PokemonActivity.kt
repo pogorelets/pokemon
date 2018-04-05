@@ -1,18 +1,17 @@
 package ru.helen.pokemon.pokemon
 
-import android.content.Intent
+
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_pokemon.*
 import ru.helen.pokemon.App
 import ru.helen.pokemon.R
-import ru.helen.pokemon.main.MainActivity
+
 import ru.helen.pokemon.model.Pokemon
-import ru.helen.pokemon.pagefragment.PageFragment
-import ru.helen.pokemon.repository.CurrentPokemon
 import javax.inject.Inject
 
 class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
@@ -25,7 +24,7 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon)
         App.instance.initPokemonComponent(this).inject(this)
-        presenter.getPokemon(intent.getIntExtra("id",1))
+        presenter.checkSave(intent.getIntExtra("id",1))
     }
 
     override fun initView(pokemon: Pokemon) {
@@ -33,7 +32,6 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
                 .load(pokemon.sprites!!.frontDefault)
                 .into(sprite)
         pokemonName.text = pokemon.name
-//        presenter.checkSave(pokemon.id!!)
         val adapterstats = StatsAdapter()
         rvstats.layoutManager = LinearLayoutManager(this)
         rvstats.setHasFixedSize(true)
@@ -45,8 +43,8 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
         adapter.changedata(pokemon.abilities!!)
         lstats.visibility = View.VISIBLE
         lability.visibility = View.VISIBLE
-        //btnSave.setOnClickListener {presenter.savePokemon(pokemon)}
-       // btnDelete.setOnClickListener { presenter.deletePokemon(pokemon.id!!) }
+        btnSave.setOnClickListener {presenter.savePokemon(pokemon)}
+        btnDelete.setOnClickListener { presenter.deletePokemon(pokemon.id!!) }
     }
 
     override fun showprogress() {
@@ -58,7 +56,7 @@ class PokemonActivity : AppCompatActivity(), Contract.ViewPokemon {
     }
 
     override fun showError(error: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.e("ERROR", error)
     }
 
 

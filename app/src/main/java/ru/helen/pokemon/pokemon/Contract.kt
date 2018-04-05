@@ -26,5 +26,6 @@ interface Contract {
         fun checkPokemons(id: Int): Boolean
         fun deletePokemon(id: Int): Boolean
         fun getPokemon(id: Int, listener: OnSuccessPokemonLoad)
+        fun getLocalPokemon(id:Int): Pokemon
     }
 }

@@ -1,6 +1,5 @@
 package ru.helen.pokemon.pagefragment
 
-import ru.helen.pokemon.model.Pokemon
 import ru.helen.pokemon.model.Pokemons
 
 /**
@@ -13,12 +12,12 @@ interface Contract {
         fun dismissprogress()
         fun showerror(error : String)
         fun updatelistpokemons(pokemons : List<Pokemons>)
-        fun updatelocalpokemons(pokemons : List<Pokemon>)
+        fun updatelocalpokemons(pokemons: List<Pokemons>)
         fun onPokemonClick(pokemon: Pokemons)
     }
     interface Interactor{
         fun getPokemonList(limit: Int, offset: Int, listener: Contract.PokemonsLoaded)
-        fun getLocalPokemons(): List<Pokemon>
+        fun getLocalPokemons(): List<Pokemons>
         fun unsubscribe()
     }
 
