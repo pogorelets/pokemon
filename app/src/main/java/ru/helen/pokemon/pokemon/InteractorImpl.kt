@@ -1,6 +1,5 @@
 package ru.helen.pokemon.pokemon
 
-
 import ru.helen.pokemon.model.Pokemon
 import ru.helen.pokemon.repository.LocalBDRepository
 import ru.helen.pokemon.repository.NetworkRepository

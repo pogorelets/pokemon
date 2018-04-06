@@ -20,8 +20,9 @@ class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interac
             view.initView(interactor.getLocalPokemon(id))
             view.btnSaveInvisible()
         } else {
+            view.showprogress()
             interactor.getPokemon(id,this)
-            view.btnSaveVisible()
+
         }
     }
 
@@ -31,17 +32,10 @@ class Presenter(val view: Contract.ViewPokemon, val interactor: Contract.Interac
         }
     }
 
-    fun getPokemon(id : Int){
-        view.showprogress()
-        interactor.getPokemon(id,this)
-    }
-
-//    fun getLocalPokemon(id : Int){
-//        interactor.getPokemon(id,this)
-//    }
 
     override fun onSuccessLoad(pokemon: Pokemon) {
         view.initView(pokemon)
+        view.btnSaveVisible()
         view.dismissprogress()
     }
 
